@@ -18,7 +18,7 @@
     },
     "require": {
         "php": ">=8.4",
-        "webkernel/standard-locator": ">=0.1.0"
+        "webkernel/standard-paths": ">=0.1.0"
     },
     "autoload": {
         "files": [
@@ -34,7 +34,7 @@
     },
     "extra": {
         "webkernel": {
-            "split_repo": "git@github.com:webkernelphp/standard-pix.git",
+            "package_repo": "git@github.com:webkernelphp/standard-pix.git",
             "production": true,
             "prefix": "standard"
         }
