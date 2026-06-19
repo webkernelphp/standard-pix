@@ -1,0 +1,44 @@
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "webkernel/standard-pix",
+    "description": "Standard graphics, icons, pixmaps, backgrounds, and encoded brand assets for the Webkernel platform.",
+    "version": "0.1.0",
+    "homepage": "https://www.webkernelphp.com/",
+    "type": "library",
+    "license": "EPL-2.0",
+    "authors": [
+        {
+            "name": "El Moumen Yassine",
+            "email": "yassine@numerimondes.com",
+            "homepage": "https://webkernelphp.com/about"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/webkernelphp/installers/issues"
+    },
+    "require": {
+        "php": ">=8.4",
+        "webkernel/standard-locator": ">=0.1.0"
+    },
+    "autoload": {
+        "files": [
+            "load.stdpix.functions.php"
+        ],
+        "classmap": [],
+        "psr-4": {
+            "Webkernel\\StdPix\\": "src/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "webkernel": {
+            "split_repo": "git@github.com:webkernelphp/standard-pix.git",
+            "production": true,
+            "prefix": "standard"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
