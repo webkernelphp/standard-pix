@@ -16,7 +16,7 @@ final class BrandingStore
     /** @var array<string, array<string, array{format: string, data: string}>> */
     private array $store = [];
 
-    private string $cacheDir;
+    private readonly string $cacheDir;
 
     public function __construct()
     {
@@ -92,7 +92,7 @@ final class BrandingStore
                     $elapsed = hrtime(true) - $start;
 
                     header('Content-Type: image/' . $asset['format']);
-                    header('Content-Length: ' . (string) strlen($binary));
+                    header('Content-Length: ' . strlen($binary));
                     header('Cache-Control: public, max-age=31536000, immutable');
                     header('ETag: ' . $etag);
                     header('X-Branding-Time: ' . $elapsed . 'ns');
