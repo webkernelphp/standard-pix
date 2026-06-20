@@ -17,7 +17,7 @@ if (!function_exists('webkernel_branding_store')) {
         $store = new BrandingStore();
 
         try {
-            $brandsPath = webkernel_package('std-functions', 'resources/brands', relative: false);
+            $brandsPath = webkernel_package('standard-pix', 'res/brands', relative: false);
             foreach (['webkernel', 'numerimondes', 'thebestrecruit'] as $brand) {
                 $store->loadFromDirectory("{$brandsPath}/{$brand}", $brand);
             }
@@ -61,11 +61,7 @@ if (!function_exists('webkernel_svg_collection_paths')) {
             return $paths;
         }
 
-        $paths = [
-            __DIR__ . '/res/icons/custom',
-            __DIR__ . '/res/icons/lucide',
-            __DIR__ . '/res/icons/simple-icons'
-        ];
+        $paths = \Webkernel\StdPix\GetIcons::paths();
 
         return $paths;
     }
@@ -84,7 +80,8 @@ if (!function_exists('webkernel_grab_icon')) {
      */
     function webkernel_grab_icon(string $filename): ?string
     {
-        foreach (webkernel_svg_collection_paths() as $path) {
+        foreach (webkernel_svg_collection_paths() as $rel) {
+            $path = project_root($rel);
             $full = rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $filename . '.svg';
             if (is_file($full)) {
                 return file_get_contents($full) ?: null;

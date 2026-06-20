@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 namespace Webkernel\StdPix;
+use Webkernel\StdPaths\WebkernelRouter;
 /**
  * Internal branding registry and asset manager.
  *
