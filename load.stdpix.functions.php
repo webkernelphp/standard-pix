@@ -69,25 +69,50 @@ if (!function_exists('webkernel_svg_collection_paths')) {
 
 if (!function_exists('webkernel_grab_icon')) {
     /**
-     * Grab an SVG icon from the Webkernel icon collections.
-     *
-     * Search order: custom -> lucide -> simple-icons. First match wins,
-     * so dropping a file in resources/custom/ overrides any built-in icon
-     * with the same name.
+     * Grab an SVG icon from the Webkernel icon collections and inject class and style.
      *
      * @param string $filename Icon name without extension (e.g. "arrow-right").
+     * @param string $class    Optional CSS classes to inject.
+     * @param string $style    Optional inline styles to inject.
      * @return string|null     Raw SVG markup, or null if not found.
      */
-    function webkernel_grab_icon(string $filename): ?string
+    function webkernel_grab_icon(string $filename, string $class = '', string $style = ''): ?string
     {
         foreach (webkernel_svg_collection_paths() as $rel) {
             $path = project_root($rel);
             $full = rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $filename . '.svg';
+
             if (is_file($full)) {
-                return file_get_contents($full) ?: null;
+                $svg = file_get_contents($full);
+                if ($svg === false) {
+                    return null;
+                }
+
+                // Préparation des attributs à injecter
+                $inject = '';
+                if ($class !== '') {
+                    $inject .= ' class="' . htmlspecialchars($class, ENT_QUOTES, 'UTF-8') . '"';
+                }
+                if ($style !== '') {
+                    $inject .= ' style="' . htmlspecialchars($style, ENT_QUOTES, 'UTF-8') . '"';
+                }
+
+                // Injection ultra-rapide juste après la balise ouvrante <svg
+                if ($inject !== '') {
+                    $svg = substr_replace($svg, $inject, 4, 0);
+                }
+
+                return $svg;
             }
         }
 
         return null;
     }
+}
+
+// Eagerly initialize branding assets (and register their /__webkernel-app/ routes)
+// as soon as this file is loaded via Composer. This ensures routes exist when
+// WebkernelRouter dispatch runs after the autoloader (in public/index.php).
+if (php_sapi_name() !== 'cli') {
+    webkernel_branding_store();
 }
